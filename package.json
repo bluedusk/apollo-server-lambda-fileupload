@@ -4,14 +4,20 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "build": "cd apollo-server-lambda && tsc",
+    "start": "sam local start-api --host localhost --port 4000"
   },
   "keywords": [],
   "author": "",
   "license": "ISC",
   "dependencies": {
+    "@types/aws-lambda": "^8.10.23",
     "apollo-server-lambda": "^2.4.8",
-    "graphql": "^14.1.1",
-    "lodash": "^4.17.11"
+    "graphql": "^14.1.1"
+  },
+  "devDependencies": {
+    "@types/graphql": "^14.2.0",
+    "typescript": "^3.4.1"
   }
 }

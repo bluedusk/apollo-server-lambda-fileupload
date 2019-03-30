@@ -1,0 +1,14 @@
+{
+  "files": ["index.ts"],
+    "compilerOptions": {
+      "rootDir": "./",
+      "outDir": "./dist",
+      "module": "commonjs",
+      "target": "es2017",
+      "allowSyntheticDefaultImports": true
+    },
+    "include": ["./**/*"],
+    "exclude": ["node_modules"]
+  }
+  
+  

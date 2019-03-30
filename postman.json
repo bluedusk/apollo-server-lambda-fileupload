@@ -1,0 +1,84 @@
+{
+	"info": {
+		"_postman_id": "d6dffaeb-4bb7-4fd3-b092-ebbacb9f5564",
+		"name": "apollo-server-lambda-postman-test",
+		"description": "apollo-server-lambda-postman-test",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+	},
+	"item": [
+		{
+			"name": "query files",
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"name": "Content-Type",
+						"value": "application/json",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n    \"query\": \"{files{id \\n name }}\"\n}"
+				},
+				"url": {
+					"raw": "localhost:4000/graphql",
+					"host": [
+						"localhost"
+					],
+					"port": "4000",
+					"path": [
+						"graphql"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "file upload",
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"name": "Content-Type",
+						"type": "text",
+						"value": "multipart/form-data; boundary=----WebKitFormBoundarySB8nXnvX1NUKKwPB"
+					}
+				],
+				"body": {
+					"mode": "formdata",
+					"formdata": [
+						{
+							"key": "operations",
+							"value": "{\"operationName\":\"uploadFiles\",\"variables\":{\"files\":[null]},\"query\":\"mutation uploadFiles($files: [Upload!]!) {\\n  uploadFiles(files: $files)\\n}\\n\"}",
+							"type": "text"
+						},
+						{
+							"key": "map",
+							"value": "{\"1\":[\"variables.files.0\"]}",
+							"type": "text"
+						},
+						{
+							"key": "1",
+							"type": "file",
+							"src": ""
+						}
+					]
+				},
+				"url": {
+					"raw": "localhost:4000/graphql",
+					"host": [
+						"localhost"
+					],
+					"port": "4000",
+					"path": [
+						"graphql"
+					]
+				}
+			},
+			"response": []
+		}
+	]
+}

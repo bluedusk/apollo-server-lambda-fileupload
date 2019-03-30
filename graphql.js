@@ -1,77 +1,51 @@
-const { ApolloServer, gql } = require('apollo-server-lambda');
-const { find, filter }  = require('lodash');
+const { ApolloServer, gql } = require("./apollo-server-lambda/dist");
 
-
-const authors = [
-  { id: 1, firstName: 'Tom', lastName: 'Coleman' },
-  { id: 2, firstName: 'Sashko', lastName: 'Stubailo' },
-  { id: 3, firstName: 'Mikhail', lastName: 'Novikov' },
+const files = [
+  { id: 1, name: "file1.txt" },
+  { id: 2, name: "file2.zip" },
+  { id: 3, name: "file3.doc" }
 ];
 
-const posts = [
-  { id: 1, authorId: 1, title: 'Introduction to GraphQL', votes: 2 },
-  { id: 2, authorId: 2, title: 'Welcome to Apollo', votes: 3 },
-  { id: 3, authorId: 2, title: 'Advanced GraphQL', votes: 1 },
-  { id: 4, authorId: 3, title: 'Launchpad is Cool', votes: 7 },
-];
+const typeDefs = gql`
+  # scalar for file Upload
+  scalar Upload
 
-// Construct a schema, using GraphQL schema language
-const typeDefs = `
-  type Author {
+  type File {
     id: Int!
-    firstName: String
-    lastName: String
-    posts: [Post] # the list of Posts by this author
+    name: String
   }
 
-  type Post {
-    id: Int!
-    title: String
-    author: Author
-    votes: Int
-  }
-
-  # the schema allows the following query:
   type Query {
-    posts: [Post]
-    author(id: Int!): Author
+    files: [File]
   }
 
-  # this schema allows the following mutation:
   type Mutation {
-    upvotePost (
-      postId: Int!
-    ): Post
+    uploadFiles(files: [Upload!]!): Boolean
   }
 `;
 
-// Provide resolver functions for your schema fields
 const resolvers = {
   Query: {
-    posts: () => posts,
-    author: (_, { id }) => find(authors, { id: id }),
+    files: () => files
   },
   Mutation: {
-    upvotePost: (_, { postId }) => {
-      const post = find(posts, { id: postId });
-      if (!post) {
-        throw new Error(`Couldn't find post with id ${postId}`);
-      }
-      post.votes += 1;
-      return post;
-    },
-  },
-  Author: {
-    posts: (author) => filter(posts, { authorId: author.id }),
-  },
-  Post: {
-    author: (post) => find(authors, { id: post.authorId }),
-  },
+    uploadFiles: async (parent, { files }) => {
+      const { createReadStream, filename, mimetype, encoding } = await files[0];
+      console.log(filename);
+      console.log(createReadStream());
+      //TODO: Stream file contents into cloud storage such as s3
+      return true;
+    }
+  }
 };
 
 const server = new ApolloServer({
   typeDefs,
   resolvers,
+  formatError: error => {
+    console.log(error);
+    return new Error("Internal server error");
+  }
 });
 
 exports.handler = server.createHandler();
