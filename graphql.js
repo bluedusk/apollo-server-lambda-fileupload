@@ -30,6 +30,7 @@ const resolvers = {
   },
   Mutation: {
     uploadFiles: async (parent, { files }) => {
+      console.log('files', files);
       const { createReadStream, filename, mimetype, encoding } = await files[0];
       console.log(filename);
       console.log(createReadStream());
@@ -44,7 +45,7 @@ const server = new ApolloServer({
   resolvers,
   formatError: error => {
     console.log(error);
-    return new Error("Internal server error");
+    return new Error(error.message);
   }
 });
 

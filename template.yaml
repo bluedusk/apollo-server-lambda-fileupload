@@ -6,6 +6,7 @@ Resources:
     Properties:
       Handler: graphql.handler
       Runtime: nodejs8.10
+      Timeout: 10
       Events:
         AnyRequest:
           Type: Api
