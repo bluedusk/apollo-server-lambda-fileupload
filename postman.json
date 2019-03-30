@@ -63,7 +63,7 @@
 						{
 							"key": "1",
 							"type": "file",
-							"src": ""
+							"src": "package.json"
 						}
 					]
 				},
