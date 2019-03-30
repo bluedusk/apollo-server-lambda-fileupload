@@ -1,7 +1,5 @@
 const { ApolloServer, gql } = require("./apollo-server-lambda/dist");
 
-console.log('here');
-
 const files = [
   { id: 1, name: "file1.txt" },
   { id: 2, name: "file2.zip" },
